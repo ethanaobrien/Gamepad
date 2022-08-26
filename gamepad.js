@@ -3,21 +3,22 @@ function Gamepad() {
     if (!gp) {
         throw new Error("get gamepads not found!");
     }
-    this.rAF = window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.requestAnimationFrame;
-    if (!this.rAF) {
+    if (!window.requestAnimationFrame) {
         throw new Error("request animation frame was not found!");
     }
     this.loop();
 }
 Gamepad.prototype = {
     gamepads: [],
-    rAF: null,
     getGamepads: function() {
         return navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads() : []);
     },
+    terminate: function() {
+        window.cancelAnimationFrame(this.loop.bind(this));
+    },
     loop: async function() {
         this.updateGamepadState();
-        this.rAF.call(null, this.loop.bind(this));
+        window.requestAnimationFrame.call(null, this.loop.bind(this));
     },
     updateGamepadState: function() {
         var gamepads = this.getGamepads();
