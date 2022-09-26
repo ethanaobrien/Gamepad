@@ -3,8 +3,8 @@ function Gamepad() {
     if (!gp) {
         throw new Error("get gamepads not found!");
     }
-    if (!window.requestAnimationFrame) {
-        throw new Error("request animation frame was not found!");
+    if (!window.setTimeout) {
+        throw new Error("setTimeout was not found!");
     }
     this.loop();
 }
@@ -13,12 +13,13 @@ Gamepad.prototype = {
     getGamepads: function() {
         return navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads() : []);
     },
+    timeout: null,
     terminate: function() {
-        window.cancelAnimationFrame(this.loop.bind(this));
+        window.clearTimeout(this.timeout);
     },
     loop: async function() {
         this.updateGamepadState();
-        window.requestAnimationFrame.call(null, this.loop.bind(this));
+        this.timeout = setTimeout(this.loop.bind(this), 10);
     },
     updateGamepadState: function() {
         var gamepads = this.getGamepads();
@@ -104,6 +105,7 @@ Gamepad.prototype = {
         this["on"+name.toLowerCase()] = cb;
     }
 }
+
 
 /*
 function test() {
