@@ -76,7 +76,7 @@ class Gamepad {
             })
             if (!hasGamepad) {
                 this.gamepads.push(gamepads[index]);
-                this.dispatchEvent('connected');
+                this.dispatchEvent('connected', {gamepadIndex: gamepad.index});
             }
         });
         
@@ -87,28 +87,25 @@ class Gamepad {
                 if (!gamepads[i]) continue;
                 if (this.gamepads[j].index === gamepads[i].index) {
                     has = true;
+                    break;
                 }
             }
             if (!has) {
+                this.dispatchEvent('disconnected', {gamepadIndex: this.gamepads[j].index});
                 this.gamepads.splice(j, 1);
                 j--;
-                this.dispatchEvent('disconnected');
-                if (typeof this.ondisconnected === 'function') {
-                    this.listeners.disconnected();
-                }
             }
         }
     }
     dispatchEvent(name, arg) {
-        if (typeof this.listeners[name] === 'function') {
-            this.listeners[name](arg);
-        }
+        if (typeof this.listeners[name] !== 'function') return;
+        if (!arg) arg={};
+        arg.type = name;
+        this.listeners[name](arg);
     }
     on(name, cb) {
         this.listeners[name.toLowerCase()] = cb;
     }
-    
-    
 }
 
 /*
@@ -117,14 +114,14 @@ function test() {
     try {
         gamepad = new Gamepad();
     } catch(e) {
-        console.warn('not supported!', e);
+        console.warn('Not supported!', e);
         return;
     }
     gamepad.on('connected', function(e) {
-        console.log('connected');
+        console.log('connected', e);
     })
     gamepad.on('disconnected', function(e) {
-        console.log('disconnected');
+        console.log('disconnected', e);
     })
     gamepad.on('axischanged', function(e) {
         console.log('axischanged', e);
