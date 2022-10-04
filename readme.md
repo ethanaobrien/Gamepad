@@ -2,16 +2,25 @@
 
 A simple gamepad wrapper, using callbacks for events.
 
+To use reference the "gamepad.js" file in your website via a script tag.<br>
+This can be done by downloading the file or by using this url: https://raw.githack.com/ethanaobrien/Gamepad/main/gamepad.js
+
+Example:
+
+```html
+<script src="https://raw.githack.com/ethanaobrien/Gamepad/main/gamepad.js"></script>
+```
+
 Example use:
 
-```
+```js
 let gamepad;
 try {
     // Will throw an error if getGamepads or setTimeout is unavailable
     gamepad = new Gamepad();
 } catch(e) {
     console.warn('Gamepad not supported!', e);
-    return;
+    throw new Error('Gamepad not supported!');
 }
 gamepad.on('connected', function(e) {
     // A gamepad has connected
