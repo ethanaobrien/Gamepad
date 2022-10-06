@@ -17,7 +17,7 @@ Example use:
 let gamepad;
 try {
     // Will throw an error if getGamepads or setTimeout is unavailable
-    gamepad = new Gamepad();
+    gamepad = new GamepadHandler();
 } catch(e) {
     console.warn('Gamepad not supported!', e);
     throw new Error('Gamepad not supported!');

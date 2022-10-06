@@ -1,4 +1,4 @@
-class Gamepad {
+class GamepadHandler {
     gamepads;
     timeout;
     listeners;
@@ -112,7 +112,7 @@ class Gamepad {
 function test() {
     let gamepad;
     try {
-        gamepad = new Gamepad();
+        gamepad = new GamepadHandler();
     } catch(e) {
         console.warn('Not supported!', e);
         return;
