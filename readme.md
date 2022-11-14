@@ -17,8 +17,8 @@ Example:
 Example use:
 
 ```js
-// On older browsers, the script will fail to run, meaning GamepadHandler is
-//  undefined. You can surround this in try {} catch(){} if you need to catch the reference error.
+// On older browsers, the script will fail to run, meaning GamepadHandler is undefined.
+// You can surround this in try {} catch(){} if you need to catch the reference error.
 let gamepad = new GamepadHandler();
 gamepad.on('connected', function(e) {
     // A gamepad has connected
