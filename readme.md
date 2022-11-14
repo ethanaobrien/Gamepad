@@ -2,6 +2,9 @@
 
 A simple gamepad wrapper, using callbacks for events.
 
+This is written using classes, uses ES6 classes and arrow functions. Requires chrome 49 or greater.<br>
+The script will throw syntax errors on any older version of chrome. Other browsers not tested.
+
 To use reference the "gamepad.js" file in your website via a script tag.<br>
 This can be done by downloading the file or by using this url: https://raw.githack.com/ethanaobrien/Gamepad/main/gamepad.js
 
@@ -14,14 +17,9 @@ Example:
 Example use:
 
 ```js
-let gamepad;
-try {
-    // Will throw an error if getGamepads or setTimeout is unavailable
-    gamepad = new GamepadHandler();
-} catch(e) {
-    console.warn('Gamepad not supported!', e);
-    throw new Error('Gamepad not supported!');
-}
+// On older browsers, the script will fail to run, meaning GamepadHandler is
+//  undefined. You can surround this in try {} catch(){} if you need to catch the reference error.
+let gamepad = new GamepadHandler();
 gamepad.on('connected', function(e) {
     // A gamepad has connected
     console.log('connected', e);

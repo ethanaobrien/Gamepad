@@ -3,12 +3,6 @@ class GamepadHandler {
     timeout;
     listeners;
     constructor() {
-        if (!navigator.getGamepads && !navigator.webkitGetGamepads) {
-            throw new Error("Get gamepads not found!");
-        }
-        if (!window.setTimeout) {
-            throw new Error("setTimeout was not found!");
-        }
         this.gamepads = [];
         this.listeners = {};
         this.timeout = null;
@@ -35,20 +29,7 @@ class GamepadHandler {
                 
                 oldGamepad.axes.forEach((axis, axisIndex) => {
                     if (gamepad.axes[axisIndex] !== axis) {
-                        const axis = function(index) {
-                            switch (index) {
-                                case 0:
-                                    return 'LEFT_STICK_X';
-                                case 1:
-                                    return 'LEFT_STICK_Y';
-                                case 2:
-                                    return 'RIGHT_STICK_X';
-                                case 3:
-                                    return 'RIGHT_STICK_Y';
-                                default:
-                                    return null;
-                            }
-                        }(axisIndex);
+                        const axis = ['LEFT_STICK_X', 'LEFT_STICK_Y', 'RIGHT_STICK_X', 'RIGHT_STICK_Y'][axisIndex];
                         if (!axis) return;
                         this.dispatchEvent('axischanged', {axis: axis, value: gamepad.axes[axisIndex], index: gamepad.index, gamepadIndex: gamepad.index});
                     }
@@ -107,32 +88,3 @@ class GamepadHandler {
         this.listeners[name.toLowerCase()] = cb;
     }
 }
-
-/*
-function test() {
-    let gamepad;
-    try {
-        gamepad = new GamepadHandler();
-    } catch(e) {
-        console.warn('Not supported!', e);
-        return;
-    }
-    gamepad.on('connected', function(e) {
-        console.log('connected', e);
-    })
-    gamepad.on('disconnected', function(e) {
-        console.log('disconnected', e);
-    })
-    gamepad.on('axischanged', function(e) {
-        console.log('axischanged', e);
-    })
-    gamepad.on('buttondown', function(e) {
-        console.log('buttondown', e);
-    })
-    gamepad.on('buttonup', function(e) {
-        console.log('buttonup', e);
-    })
-}
-
-test();
-*/

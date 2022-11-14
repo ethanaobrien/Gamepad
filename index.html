@@ -1,0 +1,20 @@
+<p>Open the console to view gamepad activity</p>
+<script src="gamepad.js"></script>
+<script>
+    let gamepad = new GamepadHandler();
+    gamepad.on('connected', function(e) {
+        console.log('connected', e);
+    })
+    gamepad.on('disconnected', function(e) {
+        console.log('disconnected', e);
+    })
+    gamepad.on('axischanged', function(e) {
+        console.log('axischanged', e);
+    })
+    gamepad.on('buttondown', function(e) {
+        console.log('buttondown', e);
+    })
+    gamepad.on('buttonup', function(e) {
+        console.log('buttonup', e);
+    })
+</script>
