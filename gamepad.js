@@ -94,3 +94,5 @@ class GamepadHandler {
         this.listeners[name.toLowerCase()] = cb;
     }
 }
+
+window.GamepadHandler = GamepadHandler;
